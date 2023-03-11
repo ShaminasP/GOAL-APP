@@ -2,8 +2,11 @@ const { urlencoded } = require("body-parser");
 const express = require("express");
 const dotenv = require("dotenv").config();
 const goalRouter = require("./Routes/goalRoutes");
-const { errorHandlet, errorHandler } = require("./Middleware/middleware");
+const {  errorHandler } = require("./Middleware/middleware");
+const connectDB = require("./Config/db");
 const port = process.env.PORT || 3000;
+
+connectDB();
 const app = express();
 
 app.use(express.json());
