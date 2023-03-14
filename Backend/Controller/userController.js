@@ -15,7 +15,7 @@ const resgisterUser = async (req, res) => {
   }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-  const User = await new userModel.create({
+  const User = await userModel.create({
     name,
     email,
     password: hashedPassword,
@@ -36,7 +36,6 @@ const resgisterUser = async (req, res) => {
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
-  console.log(user.id);
   if (!user) {
     res.status(404);
     throw new Error("User not found");
@@ -50,12 +49,14 @@ const userLogin = async (req, res) => {
   });
 };
 
-// Generate jwt token
-const generateToken = (id) => {
-  return JWT.sign({ id }, process.env.JWT_TOKEN, { expiresIn: "30d" });
+const togetUserData = async (req, res) => {
+  const { _id, email, name } = await userModel.findById(req.user.id);
+  res.status(200).json({ id: _id, name: name, email: email });
 };
 
-const togetUserData = (req, res) => {
-  res.status(200).send({ message: "" });
+// Generate jwt token
+const generateToken = (id) => {
+  return JWT.sign({ id }, process.env.JwT_SECRET, { expiresIn: "30d" });
 };
+
 module.exports = { userLogin, resgisterUser, togetUserData };
