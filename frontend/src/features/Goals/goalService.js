@@ -33,7 +33,7 @@ const getGoals = async (token) => {
 const deleteGoal = async (goalId, token) => {
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     withCredentials: true,
   };
