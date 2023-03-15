@@ -28,14 +28,13 @@ const updateGoals = async (req, res) => {
     throw new Error("Goal not found");
   }
 
-  const user = await userModel.findById(req.user.id);
 
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error("User not found");
   }
 
-  if (goal.user.toString() !== user.id) {
+  if (goal.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error("User not authorized");
   }
@@ -56,15 +55,14 @@ const deleteGoals = async (req, res) => {
     throw new Error("Invalid id");
   }
 
-  const user = await userModel.findById(req.user.id);
 
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error("User not found");
   }
 
-  if (goal.user.toString() !== user.id) {
-    res.status(401);
+  if (goal.user.toString() !== req.user.id) {
+    res.status(401); 
     throw new Error("User not authorized");
   }
 

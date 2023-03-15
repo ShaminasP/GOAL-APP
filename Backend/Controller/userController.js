@@ -50,8 +50,7 @@ const userLogin = async (req, res) => {
 };
 
 const togetUserData = async (req, res) => {
-  const { _id, email, name } = await userModel.findById(req.user.id);
-  res.status(200).json({ id: _id, name: name, email: email });
+  res.json(200).json(req.user);
 };
 
 // Generate jwt token
